@@ -14,40 +14,101 @@ const showPhonPrice = document.getElementById('showPhonPrice');
 const showCasePrice = document.getElementById('showCasePrice');
 
 const subtotal = document.getElementById('subtotal');
+const tax = document.getElementById('tax');
 const total = document.getElementById('total');
 
 
 // For Phone
 plusBtnPhone.addEventListener('click', () => {
 
-    increment(phoneQuantity, showPhonPrice);
+    handelProductChange(phoneQuantity, true);
+
+    //increment(phoneQuantity, showPhonPrice);
 
 });
 
 minusBtnPhone.addEventListener('click', () => {
 
-    decrement(phoneQuantity, showPhonPrice);
+    handelProductChange(phoneQuantity, false);
+
+    //decrement(phoneQuantity, showPhonPrice);
 
 });
 
 // For Case
 plusBtnCase.addEventListener('click', () => {
 
-    increment(caseQuantity, showCasePrice)
+    handelProductChange(caseQuantity, true);
+
+    //increment(caseQuantity, showCasePrice)
 
 });
 
 minusBtnCase.addEventListener('click', () => {
 
-    decrement(caseQuantity, showCasePrice);
+    handelProductChange(caseQuantity, false);
+
+    //decrement(caseQuantity, showCasePrice);
 
 });
+
+
+function handelProductChange(product, isIncrease) {
+
+    let productCount = parseInt(product.value);
+    let productNewCount = productCount;
+
+    if (isIncrease == false && productCount > 0) {
+        productNewCount--;
+    } 
+    if (isIncrease == true){
+        productNewCount++;        
+    }
+
+    product.value = productNewCount;
+
+    //=============================================
+    let productTotal = 0;
+    if (product == phoneQuantity) {
+        productTotal = productNewCount * 1200;
+        showPhonPrice.innerText = productTotal;
+    } else {
+        productTotal = productNewCount * 60;
+        showCasePrice.innerText = productTotal;
+    }
+    totalCalculate()
+}
+
+function totalCalculate() {
+
+    const phones = getInputValue(phoneQuantity);
+    const cases =  getInputValue(caseQuantity);
+
+    const totalPrice = phones * 1200 + cases * 60;
+    subtotal.innerText = totalPrice;
+
+    const totalTax = totalPrice * 0.1;
+    tax.innerText = '$' + totalTax ;
+
+    const grandTotal = totalPrice + totalTax ;
+    total.innerText = grandTotal ;
+}
+
+function getInputValue(product) {
+
+    let count = parseInt(product.value);
+
+    return count;
+
+}
+
+
 
 // increment function
 function increment(quantity, price) {
     if (quantity.value >= 10) {
         quantity.value = 10;
-        alert("Minimum Requirement : 10 ");
+        alert("Maximum Requirement : 10 ");
     } else {
 
         // increment by clicking...
