@@ -16,6 +16,40 @@ const showCasePrice = document.getElementById('showCasePrice');
 const subtotal = document.getElementById('subtotal');
 const tax = document.getElementById('tax');
 const total = document.getElementById('total');
+let totalPrice = 0;
+let afterRemoving = 0;
+
+console.log(totalPrice)
+
+const removeBtn = document.querySelectorAll('.remove-item');
+const cardItem = document.querySelectorAll('.cart-item');
+const HTMLprice = document.querySelectorAll('.price');
+const checkOut = document.querySelector('.check-out');
+
+// For Removing Products
+removeBtn.forEach((btn, index) => {
+    btn.addEventListener('click', () => {
+        cardItem[index].style.display = 'none';
+        let price = parseInt(HTMLprice[index].innerHTML);
+        afterRemoving = totalPrice - price;
+        calculationDisplayToHTML(afterRemoving);
+    });
+});
+
+checkOut.addEventListener('click', () => {
+
+    alert('Thank you for purchasing...');
+    location.reload();
+
+    showPhonPrice.innerText = '0';
+    showCasePrice.innerText = '0';
+    phoneQuantity.value = 0;
+    caseQuantity.value = 0;
+
+    subtotal.innerText = '0';
+    tax.innerText = '$0';
+    total.innerText = '0';
+});
 
 
 // For Phone
@@ -60,9 +94,9 @@ function handelProductChange(product, isIncrease) {
 
     if (isIncrease == false && productCount > 0) {
         productNewCount--;
-    } 
-    if (isIncrease == true){
-        productNewCount++;        
+    }
+    if (isIncrease == true) {
+        productNewCount++;
     }
 
     product.value = productNewCount;
@@ -82,26 +116,29 @@ function handelProductChange(product, isIncrease) {
 function totalCalculate() {
 
     const phones = getInputValue(phoneQuantity);
-    const cases =  getInputValue(caseQuantity);
+    const cases = getInputValue(caseQuantity);
 
-    const totalPrice = phones * 1200 + cases * 60;
-    subtotal.innerText = totalPrice;
+    totalPrice = phones * 1200 + cases * 60;
 
-    const totalTax = totalPrice * 0.1;
-    tax.innerText = '$' + totalTax ;
-
-    const grandTotal = totalPrice + totalTax ;
-    total.innerText = grandTotal ;
+    calculationDisplayToHTML(totalPrice)
 }
+
+function calculationDisplayToHTML(calTotal) {
+
+    subtotal.innerText = calTotal;
+
+    let totalTax = calTotal * 0.1;
+    tax.innerText = '$' + totalTax;
+
+    let grandTotal = calTotal + totalTax;
+    total.innerText = grandTotal;
+}
+
 
 function getInputValue(product) {
-
     let count = parseInt(product.value);
-
     return count;
-
 }
-
 
 
 // increment function
@@ -148,4 +185,9 @@ function decrement(quantity, price) {
         }
 
     }
+}
+
+function resetAll() {
+
+
 }

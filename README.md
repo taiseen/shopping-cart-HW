@@ -1,3 +1,5 @@
-# shopping-cart-HW
+22 Jan 2021
 
-# [Live Link](https://taiseen.github.io/shopping-cart-HW)
+## shopping-cart-HW | Vanilla JS | [Live Link](https://taiseen.github.io/shopping-cart-HW)
+
+
